@@ -58,10 +58,21 @@ public void callSnowFlake(int n, int bok){
 }
 
 
-    public void kwadraty()
-    {
-        
+    public void trojkaty(int bok, int min_bok) {
+        if (bok < min_bok) {
+            return;
+        }
 
+        for (int i = 0; i < 3; i++) {  // duzy trojkat
+            forward(bok);
+            left(120);
+
+            for (int j = 0; j < 3; j++) { // male trojkaty w duzym
+                forward(bok / 3);
+                left(120);
+                trojkaty(bok / 3, min_bok);
+            }
+        }
     }
 
 }

@@ -17,12 +17,15 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         TurtleAlgorithms alg = new TurtleAlgorithms();
+        alg.positioningTurtle(90);
         //alg.positioningTurtle(30);
-       //alg. sierpinski(bok, minBok);
-         //alg.sierpinski(300, 50);
+        //alg. sierpinski(bok, minBok);
+        //alg.sierpinski(300, 50);
         //alg.callSnowFlake(3, 400);
-//        alg.snowFlake(3, 400);
+        //alg.snowFlake(3, 400);
 
+        //zadanie 1
+        alg.trojkaty(500, 5);
     }
     
 }
