@@ -90,4 +90,17 @@ public void callSnowFlake(int n, int bok){
         }
     }
 
+    public void drzewko(int bok, int min_bok) {
+        if (bok < min_bok) {
+            return;
+        }
+        forward(bok);
+        left(20);
+        drzewko(3*(bok/4), min_bok);
+        right(40);
+        drzewko(3*(bok/4), min_bok);
+        left(20);
+        back(bok);
+    }
+
 }

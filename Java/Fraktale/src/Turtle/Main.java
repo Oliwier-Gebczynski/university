@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         TurtleAlgorithms alg = new TurtleAlgorithms();
-        alg.positioningTurtle(90);
+        alg.positioningTurtle(0);
         //alg.positioningTurtle(30);
         //alg. sierpinski(bok, minBok);
         //alg.sierpinski(300, 50);
@@ -28,7 +28,10 @@ public class Main {
         //alg.trojkaty(500, 5);
 
         //zadanie 2
-        alg.szesciokat(100, 10);
+        //alg.szesciokat(100, 10);
+
+        //zadanie 3
+        alg.drzewko(100, 1);
     }
     
 }
