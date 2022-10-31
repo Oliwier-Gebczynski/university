@@ -75,4 +75,19 @@ public void callSnowFlake(int n, int bok){
         }
     }
 
+    public void szesciokat(int bok, int min_bok) {
+        if (bok < min_bok) {
+            return;
+        }
+
+        for (int i = 0; i < 6; i++){
+            forward(bok/5);
+            right(120);
+            szesciokat(bok/2, min_bok);
+            left(120);
+            forward(4*(bok/5));
+            left(60);
+        }
+    }
+
 }

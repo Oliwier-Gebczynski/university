@@ -25,7 +25,10 @@ public class Main {
         //alg.snowFlake(3, 400);
 
         //zadanie 1
-        alg.trojkaty(500, 5);
+        //alg.trojkaty(500, 5);
+
+        //zadanie 2
+        alg.szesciokat(100, 10);
     }
     
 }
