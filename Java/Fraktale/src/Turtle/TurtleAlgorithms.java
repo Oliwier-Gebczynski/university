@@ -57,4 +57,11 @@ public void callSnowFlake(int n, int bok){
     }
 }
 
+
+    public void kwadraty()
+    {
+        
+
+    }
+
 }
