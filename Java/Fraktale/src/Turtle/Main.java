@@ -31,7 +31,14 @@ public class Main {
         //alg.szesciokat(100, 10);
 
         //zadanie 3
-        alg.drzewko(100, 1);
+        //alg.drzewko(100, 1);
+
+        //dodatkowe
+        //alg.kwadraty(100,10);
+
+        //alg.katnakat(100, 10);
+
+
     }
     
 }

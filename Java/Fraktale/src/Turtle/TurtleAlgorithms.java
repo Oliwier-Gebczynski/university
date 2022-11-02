@@ -103,4 +103,33 @@ public void callSnowFlake(int n, int bok){
         back(bok);
     }
 
+    public void kwadraty(int bok, int min_bok) {
+        if (bok < min_bok) {
+            return;
+        }
+
+        for (int i = 0; i < 4; i++){
+            forward(bok/4);
+            right(90);
+            kwadraty(bok/2, min_bok);
+            left(90);
+            forward(3*(bok/4));
+            left(90);
+        }
+    }
+
+    public void katnakat(int bok, int min_bok) {
+        if (bok < min_bok) {
+            return;
+        }
+
+        for (int i = 0; i < 6; i++) {
+            forward(bok);
+            right(120);
+            katnakat(bok / 2, min_bok);
+            left(120);
+            left(60);
+        }
+    }
+
 }
