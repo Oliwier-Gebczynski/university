@@ -38,7 +38,7 @@ public class Main {
 
         //alg.katnakat(100, 10);
 
-
+        alg.kart(100,30);
     }
     
 }

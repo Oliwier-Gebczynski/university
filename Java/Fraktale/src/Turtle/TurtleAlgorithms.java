@@ -132,4 +132,17 @@ public void callSnowFlake(int n, int bok){
         }
     }
 
+    public void kart(int bok, int min_bok) {
+        if (bok < min_bok) {
+            return;
+        }
+
+        right(60);
+        kart(bok/2, min_bok);
+        forward(bok);
+        left(120);
+        forward(bok);
+        left(60);
+    }
+
 }
