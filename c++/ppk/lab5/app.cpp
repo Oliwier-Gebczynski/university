@@ -14,7 +14,9 @@ void show(const PersonalData& pd){
     std::cout << "First name: " << pd.firstName << std::endl;
     std::cout << "Last name: " << pd.lastName << std::endl;
     std::cout << "Age: " << pd.age << std::endl;
-    std::cout << "Student?: " << pd.student << std::endl;
+
+    std::string v = (pd.student == true) ? "yes" : "no";
+    std::cout << "Student?: " << v << std::endl;
 
 }
 
@@ -82,5 +84,4 @@ int main(){
 
     createPersons(persons);
     show2(persons);
-
 }
