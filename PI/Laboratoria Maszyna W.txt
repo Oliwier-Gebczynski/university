@@ -1,0 +1,36 @@
+1. 
+a) //  – (AK) → (Ad)
+
+wyak wes weja ode weak;
+wys weja ode weak wyad wea;
+wyak wes ;
+pisz;
+
+
+b)  // (Ad) – (Ak) → 1
+
+wyak wes weja ode weak;
+wyak sa wel;
+wys weja przp weak il;
+wyad sa weja ode weak;
+wyl wea wyak wes;
+pisz;
+
+2.
+a) //MIN min( (Ak), ((Ad)) ) → Ak
+
+ROZKAZ MIN
+czyt wys wei il;
+wyad wea;
+czyt wys weja ode weak;
+JEŻELI z TO @pierwsze GDY NIE @drugie;
+@pierwsze wys weja przep weak wyl wea KONIEC;
+@drugie wys weja dod weak wyl wea;
+
+b) //DDP (Ak) + (((Ad))) → Ak
+
+ROZKAZ DDP
+czyt wys wei il;
+wyad wea;
+czyt wys sa wea;
+czyt wys weja dod weak wyl wea;

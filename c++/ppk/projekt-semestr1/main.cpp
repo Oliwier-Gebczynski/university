@@ -3,13 +3,13 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <climits>
 
 struct distanceBetweenCities{
     std::string aCity;
     std::string bCity;
     int distance;
 };
-
 
 std::vector<distanceBetweenCities> readFile(){
 
@@ -53,6 +53,11 @@ void show2(const std::vector<distanceBetweenCities>& dbc){
         show(el);
     }
 }
+
+//minimalna odległość 
+
+
+
 
 int main(){
     distanceBetweenCities dbc;
