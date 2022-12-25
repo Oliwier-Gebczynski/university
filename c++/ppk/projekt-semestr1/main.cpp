@@ -1,68 +1,41 @@
 #include <iostream>
-#include <vector>
-#include <string>
+#include <map>
+#include <set>
 #include <fstream>
+#include <list>
+#include <string>
 #include <sstream>
+#include <algorithm>
 #include <climits>
+#include <vector>
 
-struct distanceBetweenCities{
-    std::string aCity;
-    std::string bCity;
-    int distance;
-};
+//stworzenie grafu
+typedef std::map<std::string, std::set<std::pair<std::string, double>>> Graph;
 
-std::vector<distanceBetweenCities> readFile(){
+//wczytywanie z pliku do grafu
 
-    std::vector<distanceBetweenCities> result;
-
-    std::string fileName;
-    std::cout << "Wpisz nazwę pliku ( z rozszerzeniem .txt ): " << std::endl;
-    std::cin >> fileName;
-
-    std::fstream in(fileName);
-
+Graph LoadFromFile(const std::string& fileName){
+    Graph graph;                //zainicjowanie grafu
+    std::ifstream in(fileName); //otworzenie strumienia z plikiem 
     if(in){
-        std::string line;
+        std::string line;   
+        while (std::getline(in,line)){
+            std::stringstream ss(line);  //pobierz linie
+            std::string node1, node2;
+            double length;
 
-        while (std::getline(in, line))
-        {
-            if (line.length() == 0) break;
-            
-            std::stringstream ss(line);
-            std::string aCity, bCity, distance;
-
-            std::getline(ss, aCity, ' ');
-            std::getline(ss, bCity, ' ');
-            std::getline(ss, distance, ' ');
-
-            result.push_back({aCity, bCity, stoi(distance)});
+            if (!(ss >> node1)) continue;   //continue przerywa bieżączy krok petli
+            if (!(ss >> node2)) continue;
+            if (!(ss >> length)) continue;
+            graph[node1].insert({node2, length});   //np do miasta Gdynia dodaje miasto sopot i jego odleglosc np 5km
+            graph[node2].insert({node1, length});   //a tu do miasta Sopot dodaje miasto Gdynia i odleglosc 5km 
         }
         in.close();
     }
-    return result;
+    return graph;
 }
-
-void show(const distanceBetweenCities& dbc){ 
-    std::cout << "City A: " << dbc.aCity << std::endl;
-    std::cout << "City B: " << dbc.bCity << std::endl;
-    std::cout << "Distance: " << dbc.distance << std::endl;
-}
-
-void show2(const std::vector<distanceBetweenCities>& dbc){
-    for (const auto& el : dbc){
-        show(el);
-    }
-}
-
-//minimalna odległość 
-
-
-
 
 int main(){
-    distanceBetweenCities dbc;
+    auto graph = LoadFromFile("lista.txt");
 
-    auto z = readFile();
-
-    show2(z);
 }

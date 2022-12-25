@@ -5,6 +5,7 @@
 #include <list>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 typedef std::map<std::string, std::set<std::pair<std::string, double>>> Graph;
 
@@ -46,6 +47,33 @@ std::set<std::string> Bsf(const Graph& graph, const std::string& node){
         nodes.pop_front();
     }
     return result;
+}
+
+std::map<std::string, double> Dijkstra(const Graph& graph, std::string node){
+    std::map<std::string, double> result;
+    std::set<std::string> nodes;
+
+    for (const auto& el : graph){
+        result.[el.first] = std::numeric_limits<doube>::infinity();
+    }
+
+    if (graph.find(node) == graph.end()) return result;
+
+    result[node] = 0.0;
+    while (true){
+        for (const auto& el : graph.at(node))
+        {
+            if (result[el.first] > result.[node] + el.second)
+            {
+                result[el.first] = result.[node] + el.second;
+                nodes.insert(el.first);
+            }  
+        }
+
+        if (nodes.empty()) break;
+        std::min_element(nodes.begin(), nodes.end(), [&result](const auto& 1, const auto& r){ return result[1] < result[r];});
+        nodes.erase(node);
+    }  
 }
 
 int main() {    
