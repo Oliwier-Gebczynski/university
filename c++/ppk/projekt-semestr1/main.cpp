@@ -17,7 +17,7 @@
 
 //stworzenie grafu
 typedef std::map<std::string, std::set<std::pair<std::string, double>>> Graph;
-
+typedef std::map<std::vector<std::string>, double> Result;
 //wczytywanie z pliku do grafu
 
 Graph LoadFromFile(const std::string& fileName) {
@@ -43,11 +43,26 @@ Graph LoadFromFile(const std::string& fileName) {
     return graph;
 }
 
-std::map<std::string, double> Dijkstra(const Graph& graph, std::string node) {                          //deklarujemy funkcje, node to punkt poczatkowy
+void createPath(Result& rs, std::string node, std::string firstElement, double distance){
+    std::vector<std::string> path;
+    for (auto& item : rs) {
+        std::vector<std::string> pt = item.first;
+
+        if (pt.back() == node){
+            for(auto& element : pt){
+                path.push_back(element);
+            }
+            path.push_back(firstElement);
+        }
+    }
+    rs.insert(std::make_pair(path, distance));
+}
+
+std::map<std::string, double> Dijkstra(const Graph& graph, std::string node) {                             //deklarujemy funkcje, node to punkt poczatkowy
+    Result rs;
     std::map<std::string, double > result;                                                               //będziemy zwracać potem result, który bedzie mapą
     std::set<std::string> nodes;
-    std::vector<std::vector<std::string>> paths;
-    paths.push_back(std::vector<std::string> {node});
+    int index = 0;
 
     for (const auto& el : graph) {                                                                      //dla każdego elementu w grafie przypisuje wartośc inf
         result[ el.first ] = std::numeric_limits<double>::infinity();
@@ -57,20 +72,11 @@ std::map<std::string, double> Dijkstra(const Graph& graph, std::string node) {  
     while (true) {
         for (const auto& el : graph.at(node)) {
             if (result[el.first] > result[node] + el.second) {
-                result[el.first] = result[node] + el.second;
+                double distance = result[node] + el.second;
+                result[el.first] = distance;
                 nodes.insert(el.first);
 
-                for (auto& item : paths) {   // blad z wychodzeniem poza zakres tablicy, jesli dodam do vectora to zwiekszy sie wielkosc i wykona sie jeszcze raz mimo ze nie ma tego elementu. Mozna sproboawac cos z nowa funkcja
-                    if (item.back() == node){
-                        std::vector<std::string> path;
-                        for(auto& element : item){
-                            path.push_back(element);
-                        }
-                        path.push_back(el.first);
-                        paths.push_back(path);
-                    }
-                }
-
+                createPath(rs, node, el.first, distance);
             }
         }
 
