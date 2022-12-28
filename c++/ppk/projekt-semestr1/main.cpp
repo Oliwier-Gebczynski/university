@@ -1,5 +1,5 @@
 //TODO
-//- dokonczyc tworzenie sciezki
+//- zmiana konceptu na projekt, uzycie pq ulatwi tworzenie sciezek
 //- ogarnac plik .h
 //- zrobic wlaczenie z terminalu -i [plik wejsciowy] -o [plik wyjsciowy] -s [nazwa miasta startowego]
 //- doxygen
@@ -14,10 +14,11 @@
 #include <algorithm>
 #include <vector>
 #include <limits>
+#include <queue>
+#include <cmath>
 
 //stworzenie grafu
 typedef std::map<std::string, std::set<std::pair<std::string, double>>> Graph;
-typedef std::map<std::vector<std::string>, double> Result;
 //wczytywanie z pliku do grafu
 
 Graph LoadFromFile(const std::string& fileName) {
@@ -43,51 +44,54 @@ Graph LoadFromFile(const std::string& fileName) {
     return graph;
 }
 
-void createPath(Result& rs, std::string node, std::string firstElement, double distance){
+std::vector<std::string> construct_shortest_path(const std::map<std::string, std::string>& previous, const std::string& start, const std::string& end){
     std::vector<std::string> path;
-    for (auto& item : rs) {
-        std::vector<std::string> pt = item.first;
-
-        if (pt.back() == node){
-            for(auto& element : pt){
-                path.push_back(element);
-            }
-            path.push_back(firstElement);
-        }
+    for (std::string v = end; v != start; v = previous.at(v)) {  // idzie od koncowego elementu w mapie previous od momentu az v != start
+        path.push_back(v);
     }
-    rs.insert(std::make_pair(path, distance));
+    path.push_back(start);                                          // ostatnim brakujacym elementem jest pierwsze miasto wiec trzeba je dodac
+    std::reverse(path.begin(), path.end());                // przez to ze dodawalismy elementy od konca to trzeba odwrocic vector i mamy poprawna sciezke
+    return path;
 }
 
-std::map<std::string, double> Dijkstra(const Graph& graph, std::string node) {                             //deklarujemy funkcje, node to punkt poczatkowy
-    Result rs;
-    std::map<std::string, double > result;                                                               //będziemy zwracać potem result, który bedzie mapą
-    std::set<std::string> nodes;
-    int index = 0;
+std::pair<double, std::vector<std::string>> dijkstra(const Graph& graph, const std::string& start, const std::string& end){
+    std::map<std::string, double> result;                   //wynik (dystans)
+    std::map<std::string, std::string> previous;            //poprzednicy
+    std::priority_queue<std::pair<double, std::string>> pq; //priorytet miast
 
-    for (const auto& el : graph) {                                                                      //dla każdego elementu w grafie przypisuje wartośc inf
-        result[ el.first ] = std::numeric_limits<double>::infinity();
+    for (const auto& [vertex, edges] : graph) {  //kazde miasto bedzie mialo nieskonczona odleglosc bo tam jescze nie bylismy i nie wiemy jaki jest tam dystans
+        result[vertex] = std::numeric_limits<double>::infinity();
     }
-    if (graph.find(node) == graph.end()) return result;                                                 //WARUNEK KOŃCA
-    result[node] = 0.0;                                                                                 //dla węzła początkowego
-    while (true) {
-        for (const auto& el : graph.at(node)) {
-            if (result[el.first] > result[node] + el.second) {
-                double distance = result[node] + el.second;
-                result[el.first] = distance;
-                nodes.insert(el.first);
 
-                createPath(rs, node, el.first, distance);
-            }
+    result[start] = 0;                                      // do miasta startowego odleglosc jest rowna 0, bo sie w niej znajdujemy
+    pq.emplace(0, start);                              // dodanie pierwszego elementu do kolejki
+
+    while (!pq.empty()) {
+        double distance = pq.top().first;                   // pobiera dystans pierwszego w kolejce elementu
+        std::string vertex = pq.top().second;               // pobiera nazwe pierwszego miasta w kolejce
+        pq.pop();                                           // usuwa pierwszy element w kolejce
+
+        if (distance != result[vertex]) {                   // jezeli dystans dla tego miasta jest juz ustawiony to odwiedzilismy to miasto, wiec przechodzimy do poczatku petli
+            continue;
         }
 
-        if (nodes.empty()) break;
-        node = *std::min_element(nodes.begin(), nodes.end(), [&result](const auto& l, const auto& r) {return result[l] < result[r]; });  //zmienia node na miasto z najmiejsza iloscia kilometrow do niego
-        nodes.erase(node);
+        if (vertex == end) {                                // jezeli osiagnelismy juz koncowy punkt to zwroc dystans i sciezke
+            return {distance, construct_shortest_path(previous, start, end)};
+        }
+
+        for (const auto& [neighbor, weight] : graph.at(vertex)) { // dla kazdego sasiada wykonaj petle
+            if (result[neighbor] > distance + weight) {                                    // jezeli wartosc sasiada jest wieksza od sumy odleglosci + odleglosci do sasiada wtedy wykonaj warunek ( tu jest sprawdzana najbardziej optymalna odleglosc )
+                result[neighbor] = distance + weight;
+                previous[neighbor] = vertex;
+                pq.emplace(distance + weight, neighbor);                            // dodaj na poczatek kolejki ten element odleglosc i nazwe sasiedniego miasta
+            }
+        }
     }
-    return result;
+
+    return {std::numeric_limits<double>::infinity(), {}}; // jezeli nie potrafi dotrzec do wyznaczonego punktu to zwraca nieskonczonosc i
 }
 
 int main(){
     auto graph = LoadFromFile("lista.txt");
-    auto result = Dijkstra(graph, "Katowice");
+    auto path_from_a_to_b = dijkstra(graph, "Katowice", "Poznan");
 }
