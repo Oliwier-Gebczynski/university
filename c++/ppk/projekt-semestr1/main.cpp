@@ -15,7 +15,6 @@
 #include <vector>
 #include <limits>
 #include <queue>
-#include <cmath>
 
 //stworzenie grafu
 typedef std::map<std::string, std::set<std::pair<std::string, double>>> Graph;
@@ -59,8 +58,8 @@ std::pair<double, std::vector<std::string>> dijkstra(const Graph& graph, const s
     std::map<std::string, std::string> previous;            //poprzednicy
     std::priority_queue<std::pair<double, std::string>> pq; //priorytet miast
 
-    for (const auto& [vertex, edges] : graph) {  //kazde miasto bedzie mialo nieskonczona odleglosc bo tam jescze nie bylismy i nie wiemy jaki jest tam dystans
-        result[vertex] = std::numeric_limits<double>::infinity();
+    for (const auto& el : graph) {  //kazde miasto bedzie mialo nieskonczona odleglosc bo tam jescze nie bylismy i nie wiemy jaki jest tam dystans
+        result[el.first] = std::numeric_limits<double>::infinity();
     }
 
     result[start] = 0;                                      // do miasta startowego odleglosc jest rowna 0, bo sie w niej znajdujemy
@@ -79,11 +78,11 @@ std::pair<double, std::vector<std::string>> dijkstra(const Graph& graph, const s
             return {distance, construct_shortest_path(previous, start, end)};
         }
 
-        for (const auto& [neighbor, weight] : graph.at(vertex)) { // dla kazdego sasiada wykonaj petle
-            if (result[neighbor] > distance + weight) {                                    // jezeli wartosc sasiada jest wieksza od sumy odleglosci + odleglosci do sasiada wtedy wykonaj warunek ( tu jest sprawdzana najbardziej optymalna odleglosc )
-                result[neighbor] = distance + weight;
-                previous[neighbor] = vertex;
-                pq.emplace(distance + weight, neighbor);                            // dodaj na poczatek kolejki ten element odleglosc i nazwe sasiedniego miasta
+        for (const auto& el : graph.at(vertex)) {  // dla kazdego sasiada wykonaj petle
+            if (result[el.first] > distance + el.second) {                                    // jezeli wartosc sasiada jest wieksza od sumy odleglosci + odleglosci do sasiada wtedy wykonaj warunek ( tu jest sprawdzana najbardziej optymalna odleglosc )
+                result[el.first] = distance + el.second;
+                previous[el.first] = vertex;
+                pq.emplace(distance + el.second, el.first);                             // dodaj na poczatek kolejki ten element odleglosc i nazwe sasiedniego miasta
             }
         }
     }
@@ -91,7 +90,34 @@ std::pair<double, std::vector<std::string>> dijkstra(const Graph& graph, const s
     return {std::numeric_limits<double>::infinity(), {}}; // jezeli nie potrafi dotrzec do wyznaczonego punktu to zwraca nieskonczonosc i
 }
 
-int main(){
+void saveToFile(const std::string& fileName, const Graph& graph, const std::string& start){
+    std::ofstream out(fileName);
+
+    if (out){
+        for (const auto& element : graph){
+            if (element.first != start){
+                std::string string_path;
+                auto path = dijkstra(graph, start, element.first);
+                size_t lenght = path.second.size();
+
+                for (const auto& item : path.second){
+                    if(lenght>1){
+                        string_path += item + " -> ";
+                    }else{
+                        string_path += item;
+                    }
+                }
+                string_path += " " + std::to_string(path.first);
+                out << string_path << std::endl;
+            }
+        }
+        out.close();
+    }
+}
+
+
+int main(int argc, char* argv[]){
     auto graph = LoadFromFile("lista.txt");
-    auto path_from_a_to_b = dijkstra(graph, "Katowice", "Poznan");
+    saveToFile("wynik.txt", graph, "Poznan");
+    //auto result = dijkstra(graph, "Poznan", "Katowice");
 }
