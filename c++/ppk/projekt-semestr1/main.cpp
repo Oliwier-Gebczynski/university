@@ -74,10 +74,6 @@ std::pair<double, std::vector<std::string>> dijkstra(const Graph& graph, const s
             continue;
         }
 
-        if (vertex == end) {                                // jezeli osiagnelismy juz koncowy punkt to zwroc dystans i sciezke
-            return {distance, construct_shortest_path(previous, start, end)};
-        }
-
         for (const auto& el : graph.at(vertex)) {  // dla kazdego sasiada wykonaj petle
             if (result[el.first] > distance + el.second) {                                    // jezeli wartosc sasiada jest wieksza od sumy odleglosci + odleglosci do sasiada wtedy wykonaj warunek ( tu jest sprawdzana najbardziej optymalna odleglosc )
                 result[el.first] = distance + el.second;
@@ -87,7 +83,7 @@ std::pair<double, std::vector<std::string>> dijkstra(const Graph& graph, const s
         }
     }
 
-    return {std::numeric_limits<double>::infinity(), {}}; // jezeli nie potrafi dotrzec do wyznaczonego punktu to zwraca nieskonczonosc i
+    return {result[end], construct_shortest_path(previous, start, end)};               // if(vertex == end) w petli while ograniczal mozliwosc sprawdzenia kazdej mozliwosci, po usunieciu go wyniki wychodza poprawne
 }
 
 void saveToFile(const std::string& fileName, const Graph& graph, const std::string& start){
