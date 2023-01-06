@@ -1,8 +1,7 @@
 //TODO
-//- zmiana konceptu na projekt, uzycie pq ulatwi tworzenie sciezek
-//- ogarnac plik .h
-//- zrobic wlaczenie z terminalu -i [plik wejsciowy] -o [plik wyjsciowy] -s [nazwa miasta startowego]
+//- poprawic wpisywanie danych np: zeby miasto wpisane z malej litery tez dzialalo, jezeli zle wpisane miasto to komunikat o bledzie, jezeli zabraklo parametru wyswietl blad
 //- doxygen
+//- Uruchomienie programu bez parametrów powoduje wypisanie krótkiej informacji o tym, jak użyć programu.
 
 #include <iostream>
 #include <map>
@@ -98,9 +97,10 @@ void saveToFile(const std::string& fileName, const Graph& graph, const std::stri
 
                 for (const auto& item : path.second){
                     if(lenght>1){
+                        lenght--;
                         string_path += item + " -> ";
                     }else{
-                        string_path += item;
+                        string_path += item + ": ";
                     }
                 }
                 string_path += " " + std::to_string(path.first);
@@ -113,7 +113,22 @@ void saveToFile(const std::string& fileName, const Graph& graph, const std::stri
 
 
 int main(int argc, char* argv[]){
-    auto graph = LoadFromFile("lista.txt");
-    saveToFile("wynik.txt", graph, "Poznan");
-    //auto result = dijkstra(graph, "Poznan", "Katowice");
+    std::string input_file;
+    std::string output_file;
+    std::string start_city;
+
+    for (int i = 1; i < argc; i++) {
+        std::string element = argv[i];
+        if (element == "-i" && i + 1 < argc){
+            input_file = argv[i + 1];
+        }else if (element == "-o" && i + 1 < argc){
+            output_file = argv[i + 1];
+        }else if (element == "-s" && i + 1 < argc){
+            start_city = argv[i + 1];
+        }
+    }
+
+
+    auto graph = LoadFromFile(input_file);
+    saveToFile(output_file, graph, start_city);
 }
