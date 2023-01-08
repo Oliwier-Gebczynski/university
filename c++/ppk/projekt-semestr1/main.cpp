@@ -1,7 +1,5 @@
 //TODO
 //- poprawic wpisywanie danych np: zeby miasto wpisane z malej litery tez dzialalo, jezeli zle wpisane miasto to komunikat o bledzie, jezeli zabraklo parametru wyswietl blad
-//- doxygen
-//- Uruchomienie programu bez parametrów powoduje wypisanie krótkiej informacji o tym, jak użyć programu.
 
 #include <iostream>
 #include <map>
@@ -15,26 +13,24 @@
 #include <limits>
 #include <queue>
 
-//stworzenie grafu
 typedef std::map<std::string, std::set<std::pair<std::string, double>>> Graph;
-//wczytywanie z pliku do grafu
 
 Graph LoadFromFile(const std::string& fileName) {
-    Graph graph;                //zainicjowanie grafu
-    std::fstream in(fileName); //otworzenie strumienia z plikiem
+    Graph graph;
+    std::fstream in(fileName);
 
     if (in) {
         std::string line;
         while (std::getline(in, line)) {
-            std::stringstream ss(line);  //pobierz linie
+            std::stringstream ss(line);
             std::string node1, node2;
             double length;
 
-            if (!(ss >> node1)) continue;   //continue przerywa bieżączy krok petli
+            if (!(ss >> node1)) continue;
             if (!(ss >> node2)) continue;
             if (!(ss >> length)) continue;
-            graph[node1].insert({node2, length});   //np do miasta Gdynia dodaje miasto sopot i jego odleglosc np 5km
-            graph[node2].insert({node1, length});   //a tu do miasta Sopot dodaje miasto Gdynia i odleglosc 5km
+            graph[node1].insert({node2, length});
+            graph[node2].insert({node1, length});
 
         }
         in.close();
@@ -44,45 +40,45 @@ Graph LoadFromFile(const std::string& fileName) {
 
 std::vector<std::string> construct_shortest_path(const std::map<std::string, std::string>& previous, const std::string& start, const std::string& end){
     std::vector<std::string> path;
-    for (std::string v = end; v != start; v = previous.at(v)) {  // idzie od koncowego elementu w mapie previous od momentu az v != start
+    for (std::string v = end; v != start; v = previous.at(v)) {
         path.push_back(v);
     }
-    path.push_back(start);                                          // ostatnim brakujacym elementem jest pierwsze miasto wiec trzeba je dodac
-    std::reverse(path.begin(), path.end());                // przez to ze dodawalismy elementy od konca to trzeba odwrocic vector i mamy poprawna sciezke
+    path.push_back(start);
+    std::reverse(path.begin(), path.end());
     return path;
 }
 
 std::pair<double, std::vector<std::string>> dijkstra(const Graph& graph, const std::string& start, const std::string& end){
-    std::map<std::string, double> result;                   //wynik (dystans)
-    std::map<std::string, std::string> previous;            //poprzednicy
-    std::priority_queue<std::pair<double, std::string>> pq; //priorytet miast
+    std::map<std::string, double> result;
+    std::map<std::string, std::string> previous;
+    std::priority_queue<std::pair<double, std::string>> pq;
 
-    for (const auto& el : graph) {  //kazde miasto bedzie mialo nieskonczona odleglosc bo tam jescze nie bylismy i nie wiemy jaki jest tam dystans
+    for (const auto& el : graph) {
         result[el.first] = std::numeric_limits<double>::infinity();
     }
 
-    result[start] = 0;                                      // do miasta startowego odleglosc jest rowna 0, bo sie w niej znajdujemy
-    pq.emplace(0, start);                              // dodanie pierwszego elementu do kolejki
+    result[start] = 0;
+    pq.emplace(0, start);
 
     while (!pq.empty()) {
-        double distance = pq.top().first;                   // pobiera dystans pierwszego w kolejce elementu
-        std::string vertex = pq.top().second;               // pobiera nazwe pierwszego miasta w kolejce
-        pq.pop();                                           // usuwa pierwszy element w kolejce
+        double distance = pq.top().first;
+        std::string vertex = pq.top().second;
+        pq.pop();
 
-        if (distance != result[vertex]) {                   // jezeli dystans dla tego miasta jest juz ustawiony to odwiedzilismy to miasto, wiec przechodzimy do poczatku petli
+        if (distance != result[vertex]) {
             continue;
         }
 
-        for (const auto& el : graph.at(vertex)) {  // dla kazdego sasiada wykonaj petle
-            if (result[el.first] > distance + el.second) {                                    // jezeli wartosc sasiada jest wieksza od sumy odleglosci + odleglosci do sasiada wtedy wykonaj warunek ( tu jest sprawdzana najbardziej optymalna odleglosc )
+        for (const auto& el : graph.at(vertex)) {
+            if (result[el.first] > distance + el.second) {
                 result[el.first] = distance + el.second;
                 previous[el.first] = vertex;
-                pq.emplace(distance + el.second, el.first);                             // dodaj na poczatek kolejki ten element odleglosc i nazwe sasiedniego miasta
+                pq.emplace(distance + el.second, el.first);
             }
         }
     }
 
-    return {result[end], construct_shortest_path(previous, start, end)};               // if(vertex == end) w petli while ograniczal mozliwosc sprawdzenia kazdej mozliwosci, po usunieciu go wyniki wychodza poprawne
+    return {result[end], construct_shortest_path(previous, start, end)};
 }
 
 void saveToFile(const std::string& fileName, const Graph& graph, const std::string& start){
@@ -111,7 +107,6 @@ void saveToFile(const std::string& fileName, const Graph& graph, const std::stri
     }
 }
 
-
 int main(int argc, char* argv[]){
     std::string input_file;
     std::string output_file;
@@ -128,7 +123,12 @@ int main(int argc, char* argv[]){
         }
     }
 
+    if (input_file.empty() || output_file.empty() || start_city.empty()) {
+        std::cout << "Usage: " << argv[0] << " -i input_file -o output_file -s start_city" << std::endl;
+        return 0;
+    }
 
     auto graph = LoadFromFile(input_file);
     saveToFile(output_file, graph, start_city);
+    return 0;
 }
