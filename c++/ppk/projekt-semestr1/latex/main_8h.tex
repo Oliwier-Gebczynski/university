@@ -1,0 +1,57 @@
+\hypertarget{main_8h}{}\doxysection{main.\+h File Reference}
+\label{main_8h}\index{main.h@{main.h}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$set$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$list$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+{\ttfamily \#include $<$queue$>$}\newline
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::map$<$ std\+::string, std\+::set$<$ std\+::pair$<$ std\+::string, double $>$ $>$ $>$ \mbox{\hyperlink{main_8h_a6b71c7f7c04363310598303070297448}{Graph}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{main_8cpp_a6b71c7f7c04363310598303070297448}{Graph}} \mbox{\hyperlink{main_8h_a2fc0f579e7b9caa4f6326e90c6996dab}{Load\+From\+File}} (const std\+::string \&file\+Name)
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{main_8h_a6f7153689d84fcbccb29abbd5889c28a}{construct\+\_\+shortest\+\_\+path}} (const std\+::map$<$ std\+::string, std\+::string $>$ \&previous, const std\+::string \&start, const std\+::string \&end)
+\item 
+std\+::pair$<$ double, std\+::vector$<$ std\+::string $>$ $>$ \mbox{\hyperlink{main_8h_a4d140b6bc5b0087ba2cd81ccfbcc2c4a}{dijkstra}} (const \mbox{\hyperlink{main_8cpp_a6b71c7f7c04363310598303070297448}{Graph}} \&graph, const std\+::string \&start, const std\+::string \&end)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{main_8h_a6b71c7f7c04363310598303070297448}\label{main_8h_a6b71c7f7c04363310598303070297448}} 
+\index{main.h@{main.h}!Graph@{Graph}}
+\index{Graph@{Graph}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{Graph}{Graph}}
+{\footnotesize\ttfamily typedef std\+::map$<$std\+::string, std\+::set$<$std\+::pair$<$std\+::string, double$>$ $>$ $>$ \mbox{\hyperlink{main_8cpp_a6b71c7f7c04363310598303070297448}{Graph}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8h_a6f7153689d84fcbccb29abbd5889c28a}\label{main_8h_a6f7153689d84fcbccb29abbd5889c28a}} 
+\index{main.h@{main.h}!construct\_shortest\_path@{construct\_shortest\_path}}
+\index{construct\_shortest\_path@{construct\_shortest\_path}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{construct\_shortest\_path()}{construct\_shortest\_path()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ construct\+\_\+shortest\+\_\+path (\begin{DoxyParamCaption}\item[{const std\+::map$<$ std\+::string, std\+::string $>$ \&}]{previous,  }\item[{const std\+::string \&}]{start,  }\item[{const std\+::string \&}]{end }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{main_8h_a4d140b6bc5b0087ba2cd81ccfbcc2c4a}\label{main_8h_a4d140b6bc5b0087ba2cd81ccfbcc2c4a}} 
+\index{main.h@{main.h}!dijkstra@{dijkstra}}
+\index{dijkstra@{dijkstra}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{dijkstra()}{dijkstra()}}
+{\footnotesize\ttfamily std\+::pair$<$ double, std\+::vector$<$ std\+::string $>$ $>$ dijkstra (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{main_8cpp_a6b71c7f7c04363310598303070297448}{Graph}} \&}]{graph,  }\item[{const std\+::string \&}]{start,  }\item[{const std\+::string \&}]{end }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{main_8h_a2fc0f579e7b9caa4f6326e90c6996dab}\label{main_8h_a2fc0f579e7b9caa4f6326e90c6996dab}} 
+\index{main.h@{main.h}!LoadFromFile@{LoadFromFile}}
+\index{LoadFromFile@{LoadFromFile}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{LoadFromFile()}{LoadFromFile()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{main_8cpp_a6b71c7f7c04363310598303070297448}{Graph}} Load\+From\+File (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Name }\end{DoxyParamCaption})}
+
