@@ -9,6 +9,7 @@
 #include <vector>
 #include <limits>
 #include <queue>
+#pragma once
 
 
 typedef std::map<std::string, std::set<std::pair<std::string, double>>> Graph;
@@ -27,3 +28,12 @@ std::pair<double, std::vector<std::string>> dijkstra(
         const Graph& graph,
         const std::string& start,
         const std::string& end);
+
+void saveToFile(
+        const std::string& fileName,
+        const Graph& graph,
+        const std::string& start);
+
+std::vector<std::string> userData (
+        int argc,
+        char* argv[]);
