@@ -123,3 +123,14 @@ std::vector<std::string> userData (int argc, char* argv[]){
     std::vector<std::string> result = {input_file, output_file, start_city};
     return result;
 }
+
+bool correctCity(Graph& graph, std::string& city){
+    std::transform(city.begin(), city.begin() + 1, city.begin(), ::toupper);
+
+    if (graph.count(city)){
+        return true;
+    }else{
+        std::cout << "Incorrect city" << std::endl;
+        return false;
+    }
+}

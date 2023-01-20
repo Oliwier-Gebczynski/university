@@ -9,6 +9,7 @@
 #include <vector>
 #include <limits>
 #include <queue>
+#include <cctype>
 #pragma once
 
 
@@ -37,3 +38,7 @@ void saveToFile(
 std::vector<std::string> userData (
         int argc,
         char* argv[]);
+
+bool correctCity(
+        Graph& graph,
+        std::string& city);

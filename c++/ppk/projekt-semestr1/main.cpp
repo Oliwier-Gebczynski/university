@@ -11,6 +11,11 @@ int main(int argc, char* argv[]){
 
     auto graph = LoadFromFile(data[0]);
 
+    bool correct = correctCity(graph, data[2]);
+    if (!correct){
+        return 0;
+    }
+
     saveToFile(data[1], graph, data[2]);
     return 0;
 }
