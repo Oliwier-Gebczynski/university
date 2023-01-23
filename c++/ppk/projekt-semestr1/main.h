@@ -19,7 +19,7 @@ typedef std::map<std::string, std::set<std::pair<std::string, double>>> Graph;
 Graph LoadFromFile(const std::string& fileName);
 
 
-std::vector<std::string> construct_shortest_path(
+std::vector<std::string> ConstructShortestPath(
         const std::map<std::string, std::string>& previous,
         const std::string& start,
         const std::string& end);

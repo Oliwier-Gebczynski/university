@@ -10,6 +10,11 @@ int main(int argc, char* argv[]){
     }
 
     auto graph = LoadFromFile(data[0]);
+    if (graph.empty()){
+        std::cout << "Incorrect input file!" << std::endl;
+        return 0;
+    }
+
 
     bool correct = correctCity(graph, data[2]);
     if (!correct){

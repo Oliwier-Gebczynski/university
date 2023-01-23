@@ -20,10 +20,11 @@ Graph LoadFromFile(const std::string& fileName) {
         }
         in.close();
     }
+
     return graph;
 }
 
-std::vector<std::string> construct_shortest_path(const std::map<std::string, std::string>& previous, const std::string& start, const std::string& end){
+std::vector<std::string> ConstructShortestPath(const std::map<std::string, std::string>& previous, const std::string& start, const std::string& end){
     std::vector<std::string> path;
     for (std::string v = end; v != start; v = previous.at(v)) {
         path.push_back(v);
@@ -54,7 +55,7 @@ std::pair<double, std::vector<std::string>> dijkstra(const Graph& graph, const s
         }
 
         if (vertex == end) {
-            return {distance, construct_shortest_path(previous, start, end)};
+            return {distance, ConstructShortestPath(previous, start, end)};
         }
 
         for (const auto& el : graph.at(vertex)) {
@@ -66,7 +67,7 @@ std::pair<double, std::vector<std::string>> dijkstra(const Graph& graph, const s
         }
     }
 
-    return {result[end], construct_shortest_path(previous, start, end)};
+    return {result[end], ConstructShortestPath(previous, start, end)};
 }
 
 void saveToFile(const std::string& fileName, const Graph& graph, const std::string& start){
