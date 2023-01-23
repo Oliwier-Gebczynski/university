@@ -80,3 +80,11 @@ c++/ppk/projekt-semestr1/cmake-build-debug/.ninja_deps
 c++/ppk/projekt-semestr1/.vscode/settings.json
 *.json
 c++/ppk/projekt-semestr1/cmake-build-debug/.ninja_log
+c++/ppk/projekt-semestr1/doxygen/latex/doxygen.sty
+c++/ppk/projekt-semestr1/doxygen/latex/files.tex
+c++/ppk/projekt-semestr1/doxygen/latex/longtable_doxygen.sty
+c++/ppk/projekt-semestr1/doxygen/latex/main_8h_source.tex
+c++/ppk/projekt-semestr1/doxygen/latex/make.bat
+c++/ppk/projekt-semestr1/doxygen/latex/Makefile
+c++/ppk/projekt-semestr1/doxygen/latex/refman.tex
+c++/ppk/projekt-semestr1/doxygen/latex/tabu_doxygen.sty
