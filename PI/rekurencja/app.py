@@ -67,6 +67,16 @@ def draw6(turtle, color, size, minbok):
       turtle.forward(size/3)
       turtle.left(120)
 
+def draw7(turtle, size, minbok):
+  if minbok > size:
+    return
+  
+  for n in range(0,3,1):
+    turtle.forward(size)
+    turtle.right(60)
+    gowno(turtle, size/2, minbok)
+    turtle.left(180)
+
 tommy = turtle.Turtle()
 tommy.shape("turtle")
 tommy.speed(5)
@@ -75,5 +85,6 @@ drawFirst(tommy, "green", 200, 20)
 drawSecond(tommy, "green", 200, 20)
 draw3(tommy, "green", 200, 20)
 draw4(tommy, "green", 200, 20)
+draw5(tommy, "green", 200, 20)
 draw5(tommy, "green", 200, 20)
 draw5(tommy, "green", 200, 20)
