@@ -88,3 +88,11 @@ c++/ppk/projekt-semestr1/doxygen/latex/make.bat
 c++/ppk/projekt-semestr1/doxygen/latex/Makefile
 c++/ppk/projekt-semestr1/doxygen/latex/refman.tex
 c++/ppk/projekt-semestr1/doxygen/latex/tabu_doxygen.sty
+c++/ppk/projekt-semestr1/doxygen/Doxyfile
+*.tex
+*.aux
+*.idx
+*.ilg
+*.ind
+*.out
+c++/ppk/projekt-semestr1/doxygen/latex/refman.toc
