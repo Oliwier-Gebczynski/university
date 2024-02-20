@@ -1,74 +1,53 @@
-#include <vector>
-#include <map>
-#include <queue>
-#include <algorithm>
-#include <iostream>
-
-struct Room {
-    bool available;
-    int numberMeetings;
-    int totalDuration;
-};
-
-bool compareFirstElement(const std::vector<int>& a, const std::vector<int>& b) {
-    return a[0] < b[0];
-}
-
 class Solution {
 public:
     int mostBooked(int n, std::vector<std::vector<int>>& meetings) {
-        std::sort(meetings.begin(), meetings.end(), compareFirstElement);
-        std::reverse(meetings.begin(), meetings.end());
+        sort(meetings.begin(), meetings.end(), [](const vector<int>& a, const vector<int>& b) {
+            return a[0] < b[0];
+        });
 
-        std::map<int, Room> rooms;
+        priority_queue<vector<long long>, vector<vector<long long>>, greater<vector<long long>>> occupiedResources;
+        priority_queue<int, vector<int>, greater<int>> availableResources;
         for (int i = 0; i < n; ++i) {
-            rooms[i] = {true, 0, 0};
+            availableResources.push(i);
         }
 
-        std::priority_queue<int, std::vector<int>, std::greater<int>> availableRooms;
-        for (int i = 0; i < n; ++i) {
-            availableRooms.push(i);
-        }
+        vector<long long> resourceCounts(n, 0);
+        for (const vector<int>& meeting : meetings) {
+            long long startTime = meeting[0], endTime = meeting[1];
+            while (!occupiedResources.empty() && occupiedResources.top()[0] <= startTime) {
+                availableResources.push(occupiedResources.top()[1]);
+                occupiedResources.pop();
+            }
 
-        int iteration = 0;
-        while(!meetings.empty()){
-            for (auto& room : rooms) {
-                if (!room.second.available && room.second.totalDuration > 0) {
-                    room.second.totalDuration--;
-                    if (room.second.totalDuration <= 0) {
-                        room.second.available = true;
-                        availableRooms.push(room.first);
-                    }
+            int assignedResource;
+            if (!availableResources.empty()) {
+                assignedResource = availableResources.top();
+                availableResources.pop();
+                occupiedResources.push({endTime, assignedResource});
+            } else {
+                vector<long long> earliestEnd = occupiedResources.top();
+                occupiedResources.pop();
+                assignedResource = earliestEnd[1];
+                long long delta = startTime - earliestEnd[0];
+                if (endTime - delta >= 0) {
+                    occupiedResources.push({endTime - delta, assignedResource});
+                } else {
+                    cout << "Error: Integer overflow occurred!" << endl;
+                    return -1;
                 }
             }
 
-            if(!availableRooms.empty()){
-                if(meetings.back()[0] < iteration){
-                    int current = availableRooms.top();
-                    availableRooms.pop();
-
-                    rooms[current].available = false;
-                    rooms[current].numberMeetings++;
-                    rooms[current].totalDuration += meetings.back()[1]- meetings.back()[0];
-
-                    meetings.pop_back();
-                }
-            }
-
-            iteration++;
+            resourceCounts[assignedResource]++;
         }
 
-        int biggestValue = 0;
-        int biggestId;
-        for (auto& room : rooms) {
-            std::cout << "Id: " << room.first << ", Value: " << room.second.numberMeetings << std::endl;
-            if (room.second.numberMeetings > biggestValue) {
-                biggestValue = room.second.numberMeetings;
-                biggestId = room.first;
+        int mostBookedResource = 0;
+        for (int i = 0; i < n; ++i) {
+            if (resourceCounts[mostBookedResource] < resourceCounts[i]) {
+                mostBookedResource = i;
             }
         }
 
-        return biggestId;
+        return mostBookedResource;
     }
 };
 
