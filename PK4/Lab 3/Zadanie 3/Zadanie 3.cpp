@@ -14,7 +14,6 @@ int main() {
   std::filesystem::path plik_docelowy("copy.txt");
 
   if (std::filesystem::exists(plik_docelowy)) {
-    // Zapytanie o potwierdzenie nadpisania
     std::cout << "Plik docelowy " << plik_docelowy << " już istnieje. Nadpisać? (t/n) ";
     char znak;
     std::cin >> znak;
