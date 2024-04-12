@@ -5,6 +5,8 @@
 #include <random>
 #include <string>
 
+//Jeśli vector bedize const to sie nie wykona poniewaz nie mozna edytowac constow
+
 int main()
 {
     std::vector<int> data = { 1,2,3,4,5,6 };
@@ -18,7 +20,7 @@ int main()
     std::cout << std::endl;
 
     
-    auto view = data | std::views::take(3) | std::views::reverse;
+    auto view = data | std::views::drop(3) | std::views::reverse;
     std::ranges::sort(view);
 
     std::cout << "Po zmianie: ";
