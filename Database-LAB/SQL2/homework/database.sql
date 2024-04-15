@@ -1,0 +1,26 @@
+-- zadanie 1 Dla każdego pracownika odpowiedzialnego za jakiś przedmiot podaj liczbę przedmiotów z których prowadzi zajęcia (tabela ROZKLADY).
+SELECT ROZKLADY.NR_PRAC, PRACOWNICY.NAZWISKO, COUNT(PRZEDMIOTY.NR_ODP_PRAC) AS LiczbaPrzedmiotow
+FROM ROZKLADY
+JOIN PRACOWNICY ON ROZKLADY.NR_PRAC = PRACOWNICY.NR_PRAC
+JOIN PRZEDMIOTY ON PRACOWNICY.NR_PRAC = PRZEDMIOTY.NR_ODP_PRAC
+WHERE PRACOWNICY.NR_PRAC = PRZEDMIOTY.NR_ODP_PRAC
+GROUP BY ROZKLADY.NR_PRAC, PRACOWNICY.NAZWISKO;
+
+-- zadanie 2 Podaj nazwiska i średnią ocen z przedmiotu ALGEBRA tych studentów, którzy z tego przedmiotu mają więcej niż jedną ocenę.
+SELECT STUDENCI.NAZWISKO, AVG(OCENY.OCENA)
+FROM STUDENCI
+JOIN OCENY ON STUDENCI.NR_STUD = OCENY.NR_STUD 
+JOIN PRZEDMIOTY ON OCENY.NR_PRZEDM = PRZEDMIOTY.NR_PRZEDM
+WHERE PRZEDMIOTY.NAZWA_PRZEDM = 'ALGEBRA'
+GROUP BY STUDENCI.NR_STUD, STUDENCI.NAZWISKO
+HAVING COUNT(OCENY.OCENA) > 1
+
+-- zadanie 3 Podaj przedmioty realizowane przez największą liczbę pracowników.
+SELECT PRZEDMIOTY.NAZWA_PRZEDM, COUNT(PRACOWNICY.NR_PRAC)
+FROM PRZEDMIOTY
+JOIN PRACOWNICY ON PRZEDMIOTY.NR_ODP_PRAC = PRACOWNICY.NR_PRAC
+GROUP BY PRZEDMIOTY.NAZWA_PRZEDM
+ORDER BY COUNT(PRACOWNICY.NR_PRAC) DESC
+LIMIT 1;
+
+-- zadanie 4 Podaj numery i nazwiska pracowników, którzy w temacie DYSK otrzymali wypłatę mniejszą od co najmniej jednej z wypłat pracownika o nazwisku GRZYBEK w dowolnym temacie.
