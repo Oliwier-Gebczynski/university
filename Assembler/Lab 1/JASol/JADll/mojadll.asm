@@ -8,17 +8,21 @@
 ;-------------------------------------------------------------------------
 ;parametry funkcji: RCX RDX R8 R9 stos, 
 ;lub zmiennoprzec.  XMM0 1 2 3
-MyProc1 proc		
+
+MyProc2 proc	
+xor		rax, rax
 add 	rcx, rdx
+sub		rdx, rcx
 mov 	rax, rcx
-jnc ET1
+std
 ror	rcx,1
 mul 	rcx
+cld
 ret
-ET1:	
-neg 	rax
-ret
-MyProc1 endp
+
+MyProc2 endp
+
+
 
 END 			;no entry point
 ;-------------------------------------------------------------------------
