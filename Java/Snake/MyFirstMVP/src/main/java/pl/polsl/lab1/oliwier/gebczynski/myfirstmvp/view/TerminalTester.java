@@ -1,29 +1,21 @@
 package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.view;
 
-import java.util.Scanner;
-
 /**
+ * A simple class for displaying output in the console.
+ * This class represents the "view" in the MVC pattern.
  *
  * @author Oliwier Gebczynski
+ * @version 1.0
  */
 public class TerminalTester {
 
-    String name;
-
+    /**
+     * Displays the specified value on the console.
+     *
+     * @param value the string to be displayed
+     */
     public void display(String value) {
         System.out.println("Your name: ");
         System.out.println(value);
-    }
-
-    public void getNameFromUser() { //controller
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your name: ");
-        name = scanner.next();
-        System.out.println("------------------------");
-    }
-
-    //Getters
-    public String getName() {
-        return name;
     }
 }
