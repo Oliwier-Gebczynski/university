@@ -1,18 +1,9 @@
-class Solution {
-public:
-    int lengthOfLastWord(string s) {
-        int length = 0;
-        int i = s.size() - 1;
-
-        while (i >= 0 && s[i] == ' ') {
-            i--;
-        }
-
-        while (i >= 0 && s[i] != ' ') {
-            length++;
-            i--;
-        }
-
-        return length;
-    }
-};
+<include><uri>model://pilka_zolta</uri><pose>11.51 27.861 0.17</pose><name>yellow_ball_0</name></include>
+<include><uri>model://pilka_zolta</uri><pose>15.864 19.124 0.17</pose><name>yellow_ball_1</name></include>
+<include><uri>model://pilka_zolta</uri><pose>15.864 27.861 0.17</pose><name>yellow_ball_2</name></include>
+<include><uri>model://pilka_zolta</uri><pose>7.132 23.495 0.17</pose><name>yellow_ball_3</name></include>
+<include><uri>model://pilka_zolta</uri><pose>15.864 23.495 0.17</pose><name>yellow_ball_4</name></include>
+<include><uri>model://pilka_zolta</uri><pose>11.51 19.124 0.17</pose><name>yellow_ball_5</name></include><
+include><uri>model://pilka_czarna</uri><pose>7.132 19.124 0.17</pose><name>black_ball_6</name></include>
+<include><uri>model://pilka_czerwona</uri><pose>11.51 23.495 0.17</pose><name>red_ball_7</name></include>
+<include><uri>model://pilka_niebieska</uri><pose>7.132 27.861 0.17</pose><name>blue_ball_8</name></include>
