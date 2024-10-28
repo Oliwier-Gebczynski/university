@@ -2,6 +2,7 @@ package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.controller;
 
 import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model.Player;
 import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.view.TerminalTester;
+import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.view.StartPanel;
 import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model.InvalidName;
 
 import java.util.Scanner;
@@ -26,14 +27,13 @@ public class GameController {
         GameController game = new GameController();
         TerminalTester terminal = new TerminalTester();
         String name;
+        Player player = null;
 
         if (args.length > 0) {
             name = args[0];
         } else {
             name = game.getNameFromUser();
         }
-
-        Player player = null;
 
         try{
             player = new Player(name);
