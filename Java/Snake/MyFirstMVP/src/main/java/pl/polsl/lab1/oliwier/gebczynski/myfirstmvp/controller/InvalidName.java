@@ -1,4 +1,4 @@
-package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model;
+package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.controller;
 
 /**
  * A custom exception class that is thrown when a player's name is invalid.

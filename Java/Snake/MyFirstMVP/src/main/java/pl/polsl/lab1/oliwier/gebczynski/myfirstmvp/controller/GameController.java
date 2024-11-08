@@ -1,61 +1,59 @@
 package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.controller;
 
-import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model.Player;
-import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.view.TerminalTester;
+import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.view.GamePanel;
 import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.view.StartPanel;
-import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model.InvalidName;
 
-import java.util.Scanner;
+import javax.swing.*;
 
 /**
  * Main controller class that manages the flow of the game.
- * Responsible for handling user input and creating a Player object.
- *
- * @author Oliwier Gebczynski
- * @version 1.0
+ * Responsible for initializing the start screen and switching to the game screen when required.
  */
 public class GameController {
+    private JFrame frame;
+    private GamePanel gamePanel;
+    private GameLogicController gameLogicController;
 
     /**
-     * The entry point of the application.
-     * If no arguments are passed, the user's name is requested via console input.
-     * Otherwise, the first argument is treated as the player's name.
-     *
-     * @param args the command-line arguments. The first argument should be the player's name.
+     * Constructor initializes the main game window and sets up the start screen.
      */
-    public static void main(String args[]) {
-        GameController game = new GameController();
-        TerminalTester terminal = new TerminalTester();
-        String name;
-        Player player = null;
+    public GameController() {
+        frame = new JFrame("Snake Game");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1000, 1000);
+        frame.setLocationRelativeTo(null);
 
-        if (args.length > 0) {
-            name = args[0];
-        } else {
-            name = game.getNameFromUser();
-        }
+        gameLogicController = new GameLogicController();
+        gamePanel = new GamePanel(this, gameLogicController);
 
-        try{
-            player = new Player(name);
-        } catch (InvalidName e) {
-            terminal.display(e.getMessage());
-            System.exit(1);
-        }
-
-        terminal.display(player.getName());
+        StartPanel startPanel = new StartPanel(this);  // Poprawny import
+        frame.add(startPanel);
+        frame.setVisible(true);
     }
 
     /**
-     * Prompts the user to enter their name via console input.
-     *
-     * @return the name entered by the user
+     * Method to start the game by switching to the GamePanel.
      */
-    public String getNameFromUser() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your name: ");
-        String name = scanner.next();
-        System.out.println("------------------------");
+    public void startGame() {
+        frame.getContentPane().removeAll();
+        frame.getContentPane().add(gamePanel);
+        frame.revalidate();
+        frame.repaint();
 
-        return name;
+        gamePanel.startGame();
+    }
+
+    /**
+     * Method to change the direction of the snake.
+     */
+    public void changeDirection(int keyCode) {
+        gameLogicController.changeDirection(keyCode);
+    }
+
+    /**
+     * Main entry point of the application.
+     */
+    public static void main(String[] args) {
+        new GameController();
     }
 }
