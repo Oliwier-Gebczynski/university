@@ -1,7 +1,5 @@
 package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Board {
@@ -38,19 +36,5 @@ public class Board {
         int x = rand.nextInt(width);
         int y = rand.nextInt(height);
         candy = new Candy(x, y);
-    }
-
-    public boolean checkCollision() {
-        // Sprawdzanie kolizji węża z krawędzią planszy lub z samym sobą
-        if (snake.getHeadX() < 0 || snake.getHeadX() >= width ||
-                snake.getHeadY() < 0 || snake.getHeadY() >= height) {
-            return true;
-        }
-        return snake.isCollidingWithItself();
-    }
-
-    public boolean checkCandyCollision() {
-        // Sprawdzanie, czy głowa węża jest na tej samej pozycji, co cukierek
-        return snake.getHeadX() == candy.getX() && snake.getHeadY() == candy.getY();
     }
 }

@@ -12,21 +12,22 @@ import javax.swing.*;
 public class GameController {
     private JFrame frame;
     private GamePanel gamePanel;
-    private GameLogicController gameLogicController;
 
     /**
      * Constructor initializes the main game window and sets up the start screen.
      */
     public GameController() {
+        // Initialize the main game window
         frame = new JFrame("Snake Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 1000);
-        frame.setLocationRelativeTo(null);
+        frame.setLocationRelativeTo(null);  // Center the window on the screen
 
-        gameLogicController = new GameLogicController();
-        gamePanel = new GamePanel(this, gameLogicController);
+        // Create an instance of GamePanel and StartPanel
+        gamePanel = new GamePanel();
+        StartPanel startPanel = new StartPanel(this);
 
-        StartPanel startPanel = new StartPanel(this);  // Poprawny import
+        // Set the start screen as the initial view
         frame.add(startPanel);
         frame.setVisible(true);
     }
@@ -35,25 +36,23 @@ public class GameController {
      * Method to start the game by switching to the GamePanel.
      */
     public void startGame() {
+        // Switch to the GamePanel
         frame.getContentPane().removeAll();
         frame.getContentPane().add(gamePanel);
         frame.revalidate();
         frame.repaint();
 
+        // Start the game logic in GamePanel
         gamePanel.startGame();
     }
 
     /**
-     * Method to change the direction of the snake.
-     */
-    public void changeDirection(int keyCode) {
-        gameLogicController.changeDirection(keyCode);
-    }
-
-    /**
      * Main entry point of the application.
+     *
+     * @param args the command-line arguments
      */
     public static void main(String[] args) {
+        // Create an instance of GameController to start the application
         new GameController();
     }
 }
