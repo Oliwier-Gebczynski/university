@@ -6,9 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.controller.GameController;
+import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.controller.InvalidName;
 
-/**
- */
 public class StartPanel extends JPanel {
     private JTextField nameField;
     private GameController controller;
@@ -37,12 +36,14 @@ public class StartPanel extends JPanel {
 
         nameField = new JTextField();
         nameField.setFont(LabelFont);
+        nameField.getAccessibleContext().setAccessibleDescription("Enter your player name here");
         nameField.setToolTipText("Enter the name");
         nameField.setBounds(300, 400, 400, 75);
         add(nameField);
 
         JButton startButton = new JButton("START");
         startButton.setFont(ButtonFont);
+        startButton.getAccessibleContext().setAccessibleDescription("Press to start the game");
         startButton.setMnemonic(KeyEvent.VK_S);
         startButton.setBounds(350, 700, 300, 100);
         add(startButton);
@@ -50,13 +51,17 @@ public class StartPanel extends JPanel {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String playerName = nameField.getText();
-                if (playerName.isEmpty()) {
-                    JOptionPane.showMessageDialog(StartPanel.this, "Please enter your name to start the game.");
-                    return;
+                try {
+                    InvalidName.validateName(nameField.getText());
+                    controller.startGame();
+                } catch (InvalidName ex) {
+                    JOptionPane.showMessageDialog(
+                            StartPanel.this,
+                            ex.getMessage(),
+                            "Invalid Name",
+                            JOptionPane.ERROR_MESSAGE
+                    );
                 }
-
-                controller.startGame();
             }
         });
 

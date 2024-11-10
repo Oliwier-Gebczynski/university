@@ -12,47 +12,42 @@ import javax.swing.*;
 public class GameController {
     private JFrame frame;
     private GamePanel gamePanel;
+    private GameLogicController gameLogicController;
 
-    /**
-     * Constructor initializes the main game window and sets up the start screen.
-     */
     public GameController() {
-        // Initialize the main game window
+        // Tworzenie głównego okna gry
         frame = new JFrame("Snake Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 1000);
-        frame.setLocationRelativeTo(null);  // Center the window on the screen
+        frame.setSize(1000, 1000);  // Dopasowanie rozmiaru okna
+        frame.setLocationRelativeTo(null);  // Ustawienie okna na środku ekranu
 
-        // Create an instance of GamePanel and StartPanel
-        gamePanel = new GamePanel();
+        // Tworzenie StartPanel (jeśli jest taki panel startowy)
         StartPanel startPanel = new StartPanel(this);
-
-        // Set the start screen as the initial view
         frame.add(startPanel);
         frame.setVisible(true);
     }
 
-    /**
-     * Method to start the game by switching to the GamePanel.
-     */
     public void startGame() {
-        // Switch to the GamePanel
+        // Inicjalizacja kontrolera logiki gry
+        gameLogicController = new GameLogicController();
+        gamePanel = new GamePanel(gameLogicController);
+
+        // Przełączanie na widok gry
         frame.getContentPane().removeAll();
         frame.getContentPane().add(gamePanel);
         frame.revalidate();
         frame.repaint();
 
-        // Start the game logic in GamePanel
-        gamePanel.startGame();
+        // Rozpoczęcie gry
+        gameLogicController.startGame();
+
+        // Ustawienie fokusowania na GamePanel, aby natychmiast odbierał zdarzenia klawiatury
+        gamePanel.requestFocusInWindow();  // Zapewni to, że panel odbiera naciśnięcia klawiszy
     }
 
-    /**
-     * Main entry point of the application.
-     *
-     * @param args the command-line arguments
-     */
     public static void main(String[] args) {
-        // Create an instance of GameController to start the application
-        new GameController();
+        new GameController();  // Uruchomienie gry
     }
 }
+
+

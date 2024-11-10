@@ -7,9 +7,6 @@ public class Player {
     private int score;
 
     public Player(String name) throws InvalidName {
-        if (!isValidName(name)) {
-            throw new InvalidName(name);
-        }
         this.name = name;
         this.score = 0;
     }
@@ -24,9 +21,5 @@ public class Player {
 
     public void incrementScore() {
         score++;
-    }
-
-    private boolean isValidName(String name) {
-        return name != null && !name.contains(" ") && !name.matches("\\d+");
     }
 }

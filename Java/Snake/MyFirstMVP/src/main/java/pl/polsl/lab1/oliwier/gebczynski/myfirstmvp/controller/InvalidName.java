@@ -14,11 +14,7 @@ public class InvalidName extends Exception {
      * @param message the detail message for the exception
      */
     public InvalidName(String name) throws InvalidName {
-        super("Invalid name: " + name);
-
-        if (!isValidName(name)) {
-            throw this;
-        }
+        super(name);
     }
 
     /**
@@ -29,7 +25,15 @@ public class InvalidName extends Exception {
      * @param name the name to validate
      * @return true if the name is valid, false otherwise
      */
-    private boolean isValidName(String name) {
-        return name != null && !name.contains(" ") && !name.matches("\\d+");
+    public static void validateName(String name) throws InvalidName {
+        if (name == null || name.trim().isEmpty()) {
+            throw new InvalidName("Name cannot be empty.");
+        }
+        if (name.matches("\\d+")) {
+            throw new InvalidName("Name cannot consist solely of numbers.");
+        }
+        if (name.contains(" ")) {
+            throw new InvalidName("Name cannot contain spaces.");
+        }
     }
 }
