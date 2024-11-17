@@ -3,34 +3,65 @@ package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.controller;
 import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model.Board;
 import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model.Candy;
 import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model.Snake;
-import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.view.GamePanel;
+import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model.Player;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
- * Kontroler odpowiedzialny za logikę gry, zarządzający stanem gry, kolizjami, wynikiem itp.
+ * This class handles the core game logic of the Snake game, including board management, snake movement,
+ * collision detection, and game state updates.
+ * @author Oliwier Gebczynski
+ * @version 1.1
  */
 public class GameLogicController {
     private Board board;
     private boolean gameOver;
-    private int score;
+    private Player player;
+    private Color snakeColor;
 
-    public GameLogicController() {
+    /**
+     * Constructs a new GameLogicController instance with the provided player and snake color.
+     *
+     * @param player The player object associated with the game.
+     * @param snakeColorName A string representing the desired snake color (e.g., "Blue", "Red", "Yellow"). Defaults to green if not a valid color name.
+     */
+    public GameLogicController(Player player, String snakeColorName) {
+        this.player = player;
         this.gameOver = false;
-        this.score = 0;
+
+        switch (snakeColorName) {
+            case "Blue":
+                this.snakeColor = Color.BLUE;
+                break;
+            case "Red":
+                this.snakeColor = Color.RED;
+                break;
+            case "Yellow":
+                this.snakeColor = Color.YELLOW;
+                break;
+            default:
+                this.snakeColor = Color.GREEN;
+        }
     }
 
+    /**
+     * Initializes the game by creating a new board, setting the initial snake direction, and resetting game over state.
+     */
     public void startGame() {
-        board = new Board(15, 15);  // Resetowanie planszy i węża
-        score = 0;
+        board = new Board(15, 15);
         gameOver = false;
 
-        // Ustawienie początkowego kierunku węża (np. w prawo)
         Snake snake = board.getSnake();
-        snake.setDirection(new Point(1, 0));  // Domyślny kierunek w prawo
+        snake.setDirection(new Point(1, 0));
     }
 
+    /**
+     * Allows the player to change the snake's direction based on the provided key code.
+     * Prevents the snake from moving backwards immediately.
+     *
+     * @param keyCode The key code representing the pressed arrow key.
+     */
     public void changeDirection(int keyCode) {
         Snake snake = board.getSnake();
         Point currentDirection = snake.getDirection();
@@ -61,6 +92,12 @@ public class GameLogicController {
         }
     }
 
+    /**
+     * Updates the game state by moving the snake, checking for collisions, handling food consumption,
+     * and incrementing the player's score. Returns true if the game is still ongoing, false otherwise.
+     *
+     * @return True if the game is not over, false otherwise.
+     */
     public boolean updateGameState() {
         if (gameOver) {
             return false;
@@ -71,18 +108,24 @@ public class GameLogicController {
 
         if (isCollidingWithWall(snake) || isCollidingWithItself(snake)) {
             gameOver = true;
-            return false;  // Gra zakończona
+            return false;
         }
 
         if (isFoodEaten(snake)) {
             snake.grow(snake.getDirection());
-            score++;  // Zwiększ wynik
-            board.spawnCandy();  // Generowanie nowego jedzenia
+            player.incrementScore();
+            board.spawnCandy();
         }
 
-        return true;  // Gra nadal trwa
+        return true;
     }
 
+    /**
+     * Checks if the snake is colliding with the walls of the game board.
+     *
+     * @param snake The snake object that needs to be checked for wall collisions.
+     * @return True if the snake's head is outside the board boundaries, false otherwise.
+     */
     private boolean isCollidingWithWall(Snake snake) {
         Point head = snake.getHead();
         int boardWidth = board.getWidth();
@@ -90,50 +133,84 @@ public class GameLogicController {
         return head.x < 0 || head.x >= boardWidth || head.y < 0 || head.y >= boardHeight;
     }
 
+    /**
+     * Checks if the snake is colliding with its own body.
+     *
+     * @param snake The snake object that needs to be checked for self-collision.
+     * @return True if the snake's head is colliding with any part of its body, false otherwise.
+     */
     private boolean isCollidingWithItself(Snake snake) {
         Point head = snake.getHead();
         return snake.getBody().stream().skip(1).anyMatch(part -> part.equals(head));
     }
 
+    /**
+     * Checks if the snake has eaten the candy.
+     *
+     * @param snake The snake object that needs to be checked for food consumption.
+     * @return True if the snake's head is at the same position as the candy, false otherwise.
+     */
     private boolean isFoodEaten(Snake snake) {
         return snake.getHead().equals(board.getCandy().getPosition());
     }
 
+    /**
+     * Renders the current game state (board, snake, candy, score, and game over message) onto the graphics object.
+     * This method should be called in the paintComponent method of the view to draw the game scene.
+     *
+     * @param g The Graphics object used to render the game elements.
+     */
     public void render(Graphics g) {
+        int offset = 50;
+
         if (gameOver) {
             g.setColor(Color.RED);
             g.setFont(new Font("Arial", Font.BOLD, 40));
-            g.drawString("Game Over", 250, 300);  // Pozycja komunikatu "Game Over"
+            g.drawString("Game Over", 250, 300);
             return;
         }
 
-        // Rysowanie tła planszy (kratki)
-        g.setColor(Color.WHITE);  // Kolor tła (kratek) na biały
+        g.setColor(Color.WHITE);
         for (int x = 0; x < board.getWidth(); x++) {
             for (int y = 0; y < board.getHeight(); y++) {
-                g.drawRect(x * 50, y * 50, 50, 50);  // Rysowanie pustych białych kratek (tylko obramowanie)
+                g.drawRect(x * 50 + offset, y * 50 + offset, 50, 50);
             }
         }
 
-        // Rysowanie węża
         Snake snake = board.getSnake();
-        g.setColor(Color.GREEN);
+        g.setColor(snakeColor);
         for (Point p : snake.getBody()) {
-            g.fillRect(p.x * 50, p.y * 50, 50, 50);  // Zwiększenie rozmiaru kratek
+            g.fillRect(p.x * 50 + offset, p.y * 50 + offset, 50, 50);
         }
 
-        // Rysowanie jedzenia
         Candy candy = board.getCandy();
         g.setColor(Color.RED);
-        g.fillRect(candy.getX() * 50, candy.getY() * 50, 50, 50);  // Zwiększenie rozmiaru jedzenia
+        g.fillRect(candy.getX() * 50 + offset, candy.getY() * 50 + offset, 50, 50);
 
-        // Rysowanie wyniku
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
-        g.drawString("Score: " + score, 10, 30);
+        g.drawString("Score: " + getScore(), 10, 30);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.PLAIN, 20));
+        g.drawString("Player: " + getPlayerName(), 100, 30);
     }
 
-    public boolean isGameOver() {
-        return gameOver;
+    /**
+     * Gets the current score of the player.
+     *
+     * @return The player's score.
+     */
+    public int getScore() {
+        return player.getScore();
+    }
+
+    /**
+     * Gets the name of the player.
+     *
+     * @return The player's name.
+     */
+    public String getPlayerName() {
+        return player.getName();
     }
 }
