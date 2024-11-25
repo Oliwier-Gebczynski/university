@@ -1,5 +1,7 @@
 package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.controller.InvalidName;
 
 /**
@@ -9,6 +11,8 @@ import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.controller.InvalidName;
  * @author Oliwier Gebczynski
  * @version 1.1
  */
+@Getter
+@Setter
 public class Player {
     private String name;
     private int score;
@@ -23,24 +27,6 @@ public class Player {
     public Player(String name) throws InvalidName {
         this.name = name;
         this.score = 0;
-    }
-
-    /**
-     * Returns the name of the player.
-     *
-     * @return the name of the player
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Returns the current score of the player.
-     *
-     * @return the score of the player
-     */
-    public int getScore() {
-        return score;
     }
 
     /**

@@ -2,6 +2,8 @@ package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -55,7 +57,8 @@ public class StartPanel extends JPanel {
         nameField.setBounds(300, 400, 400, 75);
         add(nameField);
 
-        JComboBox<String> colorComboBox = new JComboBox<>(new String[]{"Green", "Blue", "Red", "Yellow"});
+        List<String> colorOptions = Arrays.asList("Green", "Blue", "Red", "Yellow");
+        JComboBox<String> colorComboBox = new JComboBox<>(colorOptions.toArray(new String[0]));
         colorComboBox.setToolTipText("Enter the color");
         colorComboBox.setBounds(300, 500, 400, 75);
         add(colorComboBox);

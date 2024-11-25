@@ -1,5 +1,6 @@
 package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model;
 
+import lombok.Getter;
 import java.util.Random;
 
 /**
@@ -9,6 +10,7 @@ import java.util.Random;
  * @author Oliwier Gebczynski
  * @version 1.1
  */
+@Getter
 public class Board {
     private final int width;
     private final int height;
@@ -27,42 +29,6 @@ public class Board {
         this.height = height;
         this.snake = new Snake();
         spawnCandy();
-    }
-
-    /**
-     * Returns the width of the board.
-     *
-     * @return the width of the board
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Returns the height of the board.
-     *
-     * @return the height of the board
-     */
-    public int getHeight() {
-        return height;
-    }
-
-    /**
-     * Returns the Snake object representing the player on the board.
-     *
-     * @return the snake object
-     */
-    public Snake getSnake() {
-        return snake;
-    }
-
-    /**
-     * Returns the Candy object currently placed on the board.
-     *
-     * @return the candy object
-     */
-    public Candy getCandy() {
-        return candy;
     }
 
     /**

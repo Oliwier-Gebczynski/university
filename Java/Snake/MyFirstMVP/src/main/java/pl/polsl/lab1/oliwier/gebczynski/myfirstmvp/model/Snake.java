@@ -1,5 +1,7 @@
 package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import java.awt.Point;
 import java.util.LinkedList;
 
@@ -11,6 +13,8 @@ import java.util.LinkedList;
  * @author Oliwier Gebczynski
  * @version 1.1
  */
+@Getter
+@Setter
 public class Snake {
     private LinkedList<Point> body;
     private Point direction;
@@ -20,57 +24,9 @@ public class Snake {
      * The snake's body initially contains one point at (7, 7), and its direction is set to (1, 0) (moving right).
      */
     public Snake() {
-        body = new LinkedList<>();
+        body = new LinkedList<Point>();
         body.add(new Point(7, 7));
         direction = new Point(1, 0);
-    }
-
-    /**
-     * Returns the LinkedList representing the entire body of the snake.
-     * The head of the snake is the first point in the list.
-     *
-     * @return a LinkedList of Points representing the snake's body
-     */
-    public LinkedList<Point> getBody() {
-        return body;
-    }
-
-    /**
-     * Returns the position of the snake's head.
-     * The head is the first point in the body list.
-     *
-     * @return the position of the snake's head
-     */
-    public Point getHead() {
-        return body.getFirst();
-    }
-
-    /**
-     * Returns the length of the snake (the number of body parts).
-     *
-     * @return the length of the snake
-     */
-    public int getLength() {
-        return body.size();
-    }
-
-    /**
-     * Returns the current direction of the snake.
-     *
-     * @return the current direction as a Point object (x, y)
-     */
-    public Point getDirection() {
-        return direction;
-    }
-
-    /**
-     * Sets the direction of the snake to the given point.
-     * The direction is represented as a point (x, y), where x and y can be -1, 0, or 1.
-     *
-     * @param newDirection the new direction the snake should move in
-     */
-    public void setDirection(Point newDirection) {
-        this.direction = newDirection;
     }
 
     /**
@@ -95,5 +51,15 @@ public class Snake {
     public void grow(Point direction) {
         Point newHead = new Point(getHead().x + direction.x, getHead().y + direction.y);
         body.addFirst(newHead);
+    }
+
+    /**
+     * Returns the position of the snake's head.
+     * The head is the first point in the body list.
+     *
+     * @return the position of the snake's head
+     */
+    public Point getHead() {
+        return body.getFirst();
     }
 }

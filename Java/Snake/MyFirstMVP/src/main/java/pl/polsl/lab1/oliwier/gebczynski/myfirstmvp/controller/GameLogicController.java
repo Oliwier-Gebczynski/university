@@ -185,7 +185,7 @@ public class GameLogicController {
 
         Candy candy = board.getCandy();
         g.setColor(Color.RED);
-        g.fillRect(candy.getX() * 50 + offset, candy.getY() * 50 + offset, 50, 50);
+        g.fillRect(candy.x() * 50 + offset, candy.y() * 50 + offset, 50, 50);
 
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, 20));

@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * The GamePanel class represents the graphical user interface (GUI) panel where the Snake game is displayed.
@@ -75,7 +76,19 @@ public class GamePanel extends JPanel {
         if (gameOverDialog == null) {
             gameOverDialog = new JDialog((Frame) null, "Game Over", true);
             gameOverDialog.setLayout(new FlowLayout());
-            gameOverDialog.setSize(250, 150);
+            gameOverDialog.setSize(500, 500);
+
+            String[][] data = {
+                    {"Oliwier", "Gębczyński"}
+            };
+            String[] columnNames = {"Author", " - "};
+
+            JTable authorTable = new JTable(data, columnNames);
+            authorTable.setEnabled(false);
+            JScrollPane scrollPane = new JScrollPane(authorTable);
+            gameOverDialog.add(scrollPane);
+
+            gameOverDialog.setLocationRelativeTo(null);
 
             JButton newGameButton = new JButton("New Game");
             newGameButton.setToolTipText("Press to start new game");
