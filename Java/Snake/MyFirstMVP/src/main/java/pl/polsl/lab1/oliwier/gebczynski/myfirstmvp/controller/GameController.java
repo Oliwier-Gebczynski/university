@@ -10,7 +10,7 @@ import javax.swing.*;
 /**
  * This class controls the overall flow of the Snake game, acting as the primary controller in the Model-View-Controller (MVC) architecture.
  * @author Oliwier Gebczynski
- * @version 1.1
+ * @version 1.2
  */
 public class GameController {
     private JFrame frame;

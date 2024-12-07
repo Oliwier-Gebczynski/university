@@ -17,7 +17,7 @@ import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.controller.InvalidName;
  * validation of the player's name.
  *
  * @author Oliwier Gebczynski
- * @version 1.1
+ * @version 1.2
  */
 public class StartPanel extends JPanel {
     private JTextField nameField;

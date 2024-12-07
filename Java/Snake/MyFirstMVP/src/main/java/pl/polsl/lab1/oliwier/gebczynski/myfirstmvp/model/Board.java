@@ -1,6 +1,8 @@
 package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model;
 
 import lombok.Getter;
+
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -8,7 +10,7 @@ import java.util.Random;
  * It holds the snake and candy objects and manages their interactions.
  * The board is a grid of a specified width and height.
  * @author Oliwier Gebczynski
- * @version 1.1
+ * @version 1.2
  */
 @Getter
 public class Board {
@@ -40,5 +42,15 @@ public class Board {
         int x = rand.nextInt(width);
         int y = rand.nextInt(height);
         candy = new Candy(x, y);
+    }
+
+    /**
+     * Spawns an extra candy at the specified location on the board.
+     * This method creates a new candy object at the given coordinates and assigns it to the `candy` field.
+     *
+     * @param extra The location of the extra candy as a Point, with x and y coordinates specifying the position.
+     */
+    public void spawnExtraCandies(Point extra) {
+        candy = new Candy(extra.x, extra.y);
     }
 }

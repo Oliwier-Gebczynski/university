@@ -7,6 +7,8 @@ import java.awt.Point;
  * It has x and y coordinates to specify its position.
  * @param x the x-coordinate of the candy
  * @param y the y-coordinate of the candy
+ * @author Oliwier Gebczynski
+ * @version 1.2
  */
 public record Candy(int x, int y) {
 

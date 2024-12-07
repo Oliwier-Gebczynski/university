@@ -5,7 +5,7 @@ package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.view;
  * This class represents the "view" in the MVC pattern.
  *
  * @author Oliwier Gebczynski
- * @version 1.0
+ * @version 1.2
  */
 public class TerminalTester {
 

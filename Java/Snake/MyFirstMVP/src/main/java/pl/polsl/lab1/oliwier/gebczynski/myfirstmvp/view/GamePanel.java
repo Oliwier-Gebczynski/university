@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
  * The panel interacts with the GameLogicController to update the game state and display changes.
  *
  * @author Oliwier Gebczynski
- * @version 1.1
+ * @version 1.2
  */
 public class GamePanel extends JPanel {
     private GameLogicController gameLogic;
@@ -75,20 +75,33 @@ public class GamePanel extends JPanel {
     private void showGameOverDialog() {
         if (gameOverDialog == null) {
             gameOverDialog = new JDialog((Frame) null, "Game Over", true);
-            gameOverDialog.setLayout(new FlowLayout());
-            gameOverDialog.setSize(500, 500);
+            gameOverDialog.setLayout(new BorderLayout());
+            gameOverDialog.setSize(300, 200);
 
             String[][] data = {
-                    {"Oliwier", "Gębczyński"}
+                    {"Oliwier", "Gębczyński"},
+                    {"Anna", "Kowalska"},
+                    {"Jan", "Nowak"},
+                    {"Marta", "Zielińska"},
+                    {"Piotr", "Wiśniewski"},
+                    {"Katarzyna", "Jankowska"},
+                    {"Tomasz", "Mazur"},
+                    {"Piotr", "Wiśniewski"},
+                    {"Katarzyna", "Jankowska"},
+                    {"Tomasz", "Mazur"}
             };
-            String[] columnNames = {"Author", " - "};
+            String[] columnNames = {"Game Over", gameLogic.getGameResult().getResult()};
 
             JTable authorTable = new JTable(data, columnNames);
             authorTable.setEnabled(false);
-            JScrollPane scrollPane = new JScrollPane(authorTable);
-            gameOverDialog.add(scrollPane);
 
-            gameOverDialog.setLocationRelativeTo(null);
+            JScrollPane scrollPane = new JScrollPane(authorTable);
+            scrollPane.setPreferredSize(new Dimension(300, 100));
+
+            gameOverDialog.add(scrollPane, BorderLayout.CENTER);
+
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new FlowLayout());
 
             JButton newGameButton = new JButton("New Game");
             newGameButton.setToolTipText("Press to start new game");
@@ -103,10 +116,10 @@ public class GamePanel extends JPanel {
             exitButton.getAccessibleContext().setAccessibleDescription("Press to exit the game");
             exitButton.addActionListener(e -> System.exit(0));
 
-            gameOverDialog.add(newGameButton);
-            gameOverDialog.add(exitButton);
+            buttonPanel.add(newGameButton);
+            buttonPanel.add(exitButton);
 
-            gameOverDialog.setLocationRelativeTo(null);
+            gameOverDialog.add(buttonPanel, BorderLayout.SOUTH);
 
             InputMap inputMap = gameOverDialog.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
             ActionMap actionMap = gameOverDialog.getRootPane().getActionMap();
@@ -135,7 +148,8 @@ public class GamePanel extends JPanel {
                 }
             });
         }
+
+        gameOverDialog.setLocationRelativeTo(null);
         gameOverDialog.setVisible(true);
     }
-
 }

@@ -11,7 +11,7 @@ import java.util.LinkedList;
  * The snake is represented as a LinkedList of points, where each point corresponds to a part of the snake's body.
  *
  * @author Oliwier Gebczynski
- * @version 1.1
+ * @version 1.2
  */
 @Getter
 @Setter

@@ -6,7 +6,7 @@ package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.controller;
  * no digits-only names, and non-empty names.
  *
  * @author Oliwier Gebczynski
- * @version 1.1
+ * @version 1.2
  */
 public class InvalidName extends Exception {
 

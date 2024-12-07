@@ -9,7 +9,7 @@ import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.controller.InvalidName;
  * It stores the player's name and score, and provides methods to retrieve and update this information.
  *
  * @author Oliwier Gebczynski
- * @version 1.1
+ * @version 1.2
  */
 @Getter
 @Setter
