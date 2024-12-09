@@ -25,6 +25,7 @@ public class Player {
      * @throws InvalidName if the provided name is invalid (e.g., empty, contains spaces, or is only digits)
      */
     public Player(String name) throws InvalidName {
+        InvalidName.validateName(name);
         this.name = name;
         this.score = 0;
     }
