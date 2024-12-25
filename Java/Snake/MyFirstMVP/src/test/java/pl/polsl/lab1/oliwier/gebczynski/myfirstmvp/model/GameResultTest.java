@@ -1,83 +1,94 @@
 package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model;
 
 import org.junit.jupiter.api.Test;
-import java.awt.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.controller.InvalidGameResult;
+
+/**
+ * Couple of tests for GameResult Class.
+ */
 class GameResultTest {
 
-    @Test
-    void shouldStoreAndReturnCorrectIntegerValue() {
-        // GIVEN: A GameResult object will be created to store an Integer value of 100
-        Integer resultValue = 100;
+    /**
+     * Verifies that a GameResult object correctly stores and returns an Integer value.
+     *
+     * @param value An integer value
+     */
+    @ParameterizedTest
+    @CsvSource({"100", "-50", "0"})
+    void shouldStoreAndReturnCorrectIntegerValue(int value) {
+        // GIVEN: A GameResult object with an Integer value
+        GameResult<Integer> gameResult = new GameResult<>(value);
 
-        // WHEN: Creating a GameResult object to store the Integer value
-        GameResult<Integer> gameResult = new GameResult<>(resultValue);
+        // WHEN: Getting the result
+        Integer result = gameResult.getResult();
 
-        // THEN: Verify the Integer value is stored and returned correctly
-        assertEquals(100, gameResult.getResult(), "GameResult should store and return the correct Integer value");
+        // THEN: Verify the result is correct
+        assertEquals(value, result, "GameResult should store and return the correct Integer value");
     }
 
-    @Test
-    void shouldStoreAndReturnCorrectStringValue() {
-        // GIVEN: A GameResult object will be created to store a String value "Victory"
-        String resultValue = "Victory";
+    /**
+     * Verifies that a GameResult object correctly stores and returns a String value.
+     *
+     * @param value A string value
+     */
+    @ParameterizedTest
+    @CsvSource({"Victory", "Defeat", "Draw"})
+    void shouldStoreAndReturnCorrectStringValue(String value) {
+        // GIVEN: A GameResult object with a String value
+        GameResult<String> gameResult = new GameResult<>(value);
 
-        // WHEN: Creating a GameResult object to store the String value
-        GameResult<String> gameResult = new GameResult<>(resultValue);
+        // WHEN: Getting the result
+        String result = gameResult.getResult();
 
-        // THEN: Verify the String value is stored and returned correctly
-        assertEquals("Victory", gameResult.getResult(), "GameResult should store and return the correct String value");
+        // THEN: Verify the result is correct
+        assertEquals(value, result, "GameResult should store and return the correct String value");
     }
 
-    @Test
-    void shouldStoreAndReturnCorrectDoubleValue() {
-        // GIVEN: A GameResult object will be created to store a Double value 99.9
-        Double resultValue = 99.9;
+    /**
+     * Verifies that a GameResult object correctly stores and returns a Double value.
+     *
+     * @param value A double value
+     */
+    @ParameterizedTest
+    @CsvSource({"99.9", "-99.9", "0.0"})
+    void shouldStoreAndReturnCorrectDoubleValue(double value) {
+        // GIVEN: A GameResult object with a Double value
+        GameResult<Double> gameResult = new GameResult<>(value);
 
-        // WHEN: Creating a GameResult object to store the Double value
-        GameResult<Double> gameResult = new GameResult<>(resultValue);
+        // WHEN: Getting the result
+        Double result = gameResult.getResult();
 
-        // THEN: Verify the Double value is stored and returned correctly
-        assertEquals(99.9, gameResult.getResult(), "GameResult should store and return the correct Double value");
+        // THEN: Verify the result is correct
+        assertEquals(value, result, "GameResult should store and return the correct Double value");
     }
 
+    /**
+     * Verifies that a GameResult object correctly handles null values.
+     */
     @Test
     void shouldHandleNullValuesCorrectly() {
-        // GIVEN: A GameResult object will be created to store a null value
-        Object resultValue = null;
-
-        // WHEN: Creating a GameResult object to store the null value
-        GameResult<Object> gameResult = new GameResult<>(resultValue);
+        // GIVEN: A null value for GameResult
+        Throwable thrown = assertThrows(InvalidGameResult.class, () -> new GameResult<>(null));
 
         // THEN: Verify that the null value is handled correctly
-        assertNull(gameResult.getResult(), "GameResult should handle null values correctly");
+        assertEquals("Result cannot be null.", thrown.getMessage(), "GameResult should handle null values correctly");
     }
 
+    /**
+     * Verifies that a GameResult object correctly handles unsupported types.
+     */
     @Test
-    void shouldStoreAndReturnCustomObjectCorrectly() {
-        // GIVEN: A GameResult object will be created to store a custom object of type CustomResult
-        class CustomResult {
-            private final String description;
+    void shouldHandleUnsupportedTypesCorrectly() {
+        // GIVEN: An unsupported type
+        class UnsupportedType {}
+        Throwable thrown = assertThrows(InvalidGameResult.class, () -> new GameResult<>(new UnsupportedType()));
 
-            CustomResult(String description) {
-                this.description = description;
-            }
-
-            public String getDescription() {
-                return description;
-            }
-        }
-
-        CustomResult customResult = new CustomResult("Custom outcome");
-
-        // WHEN: Creating a GameResult object to store the custom object
-        GameResult<CustomResult> gameResult = new GameResult<>(customResult);
-
-        // THEN: Verify that the custom object is stored and returned correctly
-        assertNotNull(gameResult.getResult(), "GameResult should store non-null custom objects");
-        assertEquals("Custom outcome", gameResult.getResult().getDescription(),
-                "GameResult should correctly store and return custom object values");
+        // THEN: Verify that unsupported types are handled correctly
+        assertEquals("Unsupported type: ", thrown.getMessage(), "GameResult should handle unsupported types correctly");
     }
 }

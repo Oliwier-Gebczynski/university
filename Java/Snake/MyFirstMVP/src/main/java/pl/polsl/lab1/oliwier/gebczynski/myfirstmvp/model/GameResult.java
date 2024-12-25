@@ -1,4 +1,5 @@
 package pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.model;
+import pl.polsl.lab1.oliwier.gebczynski.myfirstmvp.controller.InvalidGameResult;
 
 /**
  * The GameResult class represents the result of a game.
@@ -12,11 +13,13 @@ public class GameResult<T> {
     private T result;
 
     /**
-     * Constructs a new GameResult with the specified result.
+     * Constructs a GameResult with the specified value.
      *
-     * @param result The result of the game. Can be of any type, depending on the context (e.g., score, message, etc.).
+     * @param result the result to store
+     * @throws InvalidGameResult if the result is null or an invalid type
      */
-    public GameResult(T result) {
+    public GameResult(T result) throws InvalidGameResult {
+        validate(result);
         this.result = result;
     }
 
@@ -27,6 +30,22 @@ public class GameResult<T> {
      */
     public T getResult() {
         return result;
+    }
+
+    /**
+     * Validates the result. Throws InvalidGameResultException if the result is null or of an unsupported type.
+     *
+     * @param result the result to validate
+     * @throws InvalidGameResult if the result is null or of an invalid type
+     */
+    private void validate(T result) throws InvalidGameResult {
+
+        if (result == null) {
+            throw new InvalidGameResult("Result cannot be null.");
+        }
+        if (!(result instanceof Integer || result instanceof String || result instanceof Double)) {
+            throw new InvalidGameResult("Unsupported type: ");
+        }
     }
 }
 
